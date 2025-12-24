@@ -61,6 +61,7 @@ vehicle_identification/data/*.index
 *.jpeg
 *.png
 *.gif
+test_vehicle.jpg
 !example_images/*.jpg
 !example_images/*.png
 
