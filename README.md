@@ -4,6 +4,12 @@
 
 **E.D.I.T.H.** (Enhanced Deep Intelligence for Tactical Handling) is a complete, production-ready vehicle identification system that uses a multi-stage deep learning pipeline to identify vehicles from images.
 
+## 🚀 Quick Start
+
+**New to E.D.I.T.H.?** See the [Quick Start Guide (QUICKSTART.md)](QUICKSTART.md) for a condensed setup guide.
+
+**Installing on Windows?** See [WINDOWS_INSTALL.md](WINDOWS_INSTALL.md) for detailed Windows instructions.
+
 ## Features
 
 ### Multi-Stage Pipeline
