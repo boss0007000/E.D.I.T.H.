@@ -1,0 +1,57 @@
+# Vehicle Identification Configuration
+
+# Detection settings
+detection:
+  model: "yolov8n"  # YOLO model for vehicle detection
+  confidence_threshold: 0.3
+  iou_threshold: 0.5
+  device: "cpu"  # "cuda" for GPU
+  target_classes: [2, 3, 5, 7]  # car, motorcycle, bus, truck
+
+# Classification settings
+classification:
+  model_name: "resnet50"
+  num_classes: 100  # Placeholder - should be updated based on actual dataset
+  confidence_threshold: 0.1
+  top_k: 5
+  device: "cpu"
+
+# Logo detection settings
+logo_detection:
+  model: "yolov8n"
+  confidence_threshold: 0.25
+  device: "cpu"
+
+# OCR settings
+ocr:
+  reader: "easyocr"  # or "tesseract"
+  languages: ["en"]
+  confidence_threshold: 0.5
+  device: "cpu"
+
+# Embedding settings
+embedding:
+  model_name: "sentence-transformers/clip-ViT-B-32"
+  dimension: 512
+  device: "cpu"
+  index_type: "faiss"  # or "hnswlib"
+
+# Retrieval settings
+retrieval:
+  top_k: 10
+  similarity_metric: "cosine"
+
+# Fusion settings
+fusion:
+  weights:
+    classification: 0.4
+    logo: 0.2
+    ocr: 0.1
+    embedding: 0.3
+  final_top_k: 5
+
+# Database settings
+database:
+  path: "vehicle_identification/data/vehicle_database.json"
+  embeddings_path: "vehicle_identification/data/embeddings.npy"
+  index_path: "vehicle_identification/data/faiss_index.bin"
