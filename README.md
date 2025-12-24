@@ -32,7 +32,7 @@
 - PyTorch 2.0+
 - CUDA (optional, for GPU acceleration)
 
-### Setup
+### Quick Setup (Linux/Mac)
 
 1. Clone the repository:
 ```bash
@@ -48,6 +48,36 @@ pip install -r requirements.txt
 3. (Optional) For GPU support, install CUDA-enabled PyTorch:
 ```bash
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+```
+
+### Windows Installation
+
+**For detailed Windows installation instructions, see [WINDOWS_INSTALL.md](WINDOWS_INSTALL.md)**
+
+Quick steps:
+```cmd
+# Download and extract, or clone with Git
+git clone https://github.com/boss0007000/E.D.I.T.H..git
+cd E.D.I.T.H.
+
+# Create virtual environment
+python -m venv venv
+venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Verify installation
+python verify_installation.py
+```
+
+To run on Windows:
+```cmd
+# Using batch file (recommended)
+run.bat path\to\image.jpg
+
+# Or directly with Python
+python example.py --image path\to\image.jpg
 ```
 
 ## Quick Start
@@ -108,6 +138,41 @@ This will:
 2. Run the complete pipeline
 3. Display results
 
+## Training with Your Dataset
+
+If you have a dataset organized by folders (one folder per vehicle class):
+
+```
+dataset/
+├── acura_cl_1997/
+│   ├── image1.jpg
+│   ├── image2.jpg
+│   └── ...
+├── honda_civic_2005/
+│   ├── image1.jpg
+│   └── ...
+└── toyota_camry_2020/
+    ├── image1.jpg
+    └── ...
+```
+
+### Train the Classifier
+
+```bash
+# Basic training
+python train.py --dataset dataset --epochs 50
+
+# Advanced options
+python train.py --dataset dataset --epochs 100 --batch-size 32 --model resnet50
+
+# Windows
+python train.py --dataset dataset --epochs 50 --batch-size 32
+```
+
+After training, the model will be saved to `models/vehicle_classifier.pth` and can be used for inference.
+
+For more details, see [TRAINING.md](TRAINING.md) and [WINDOWS_INSTALL.md](WINDOWS_INSTALL.md)
+
 ## Project Structure
 
 ```
@@ -129,10 +194,19 @@ E.D.I.T.H./
 │   ├── configs/
 │   │   └── config.yaml          # Default configuration
 │   └── data/                    # Vehicle database & indices
+├── dataset/                     # Your training dataset (optional)
+│   ├── acura_cl_1997/
+│   ├── honda_civic_2005/
+│   └── ...
+├── models/                      # Trained model weights (created during training)
 ├── example.py                   # Example usage script
+├── train.py                     # Training script for custom datasets
 ├── test_pipeline.py             # Quick test script
+├── run.bat                      # Windows batch file for easy execution
 ├── requirements.txt             # Python dependencies
-└── README.md                    # This file
+├── README.md                    # This file
+├── WINDOWS_INSTALL.md          # Detailed Windows installation guide
+└── TRAINING.md                  # Advanced training guide
 ```
 
 ## Configuration

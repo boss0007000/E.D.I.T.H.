@@ -20,6 +20,8 @@ def main():
                        help='Path to input image')
     parser.add_argument('--config', type=str, default=None,
                        help='Path to configuration file')
+    parser.add_argument('--weights', type=str, default=None,
+                       help='Path to trained model weights (e.g., models/vehicle_classifier.pth)')
     parser.add_argument('--output', type=str, default=None,
                        help='Path to save visualization')
     parser.add_argument('--verbose', action='store_true',
@@ -35,6 +37,22 @@ def main():
     # Initialize pipeline
     print("Initializing Vehicle Identification Pipeline...")
     pipeline = VehicleIdentificationPipeline(config_path=args.config)
+    
+    # Load custom weights if provided
+    if args.weights and os.path.exists(args.weights):
+        import json
+        print(f"Loading custom model weights from: {args.weights}")
+        
+        # Load class names if available
+        class_names_path = os.path.join(os.path.dirname(args.weights), 'class_names.json')
+        class_names = None
+        if os.path.exists(class_names_path):
+            with open(class_names_path, 'r') as f:
+                class_names = json.load(f)
+            print(f"Loaded {len(class_names)} class names")
+        
+        # Load model with weights
+        pipeline.classifier.load_model(weights_path=args.weights, class_names=class_names)
     
     # Load mock database
     pipeline.load_database()
