@@ -39,20 +39,24 @@ def main():
     pipeline = VehicleIdentificationPipeline(config_path=args.config)
     
     # Load custom weights if provided
-    if args.weights and os.path.exists(args.weights):
-        import json
-        print(f"Loading custom model weights from: {args.weights}")
-        
-        # Load class names if available
-        class_names_path = os.path.join(os.path.dirname(args.weights), 'class_names.json')
-        class_names = None
-        if os.path.exists(class_names_path):
-            with open(class_names_path, 'r') as f:
-                class_names = json.load(f)
-            print(f"Loaded {len(class_names)} class names")
-        
-        # Load model with weights
-        pipeline.classifier.load_model(weights_path=args.weights, class_names=class_names)
+    if args.weights:
+        if os.path.exists(args.weights):
+            import json
+            print(f"Loading custom model weights from: {args.weights}")
+            
+            # Load class names if available
+            class_names_path = os.path.join(os.path.dirname(args.weights), 'class_names.json')
+            class_names = None
+            if os.path.exists(class_names_path):
+                with open(class_names_path, 'r') as f:
+                    class_names = json.load(f)
+                print(f"Loaded {len(class_names)} class names")
+            
+            # Load model with weights
+            pipeline.classifier.load_model(weights_path=args.weights, class_names=class_names)
+        else:
+            print(f"Warning: Weights file not found: {args.weights}")
+            print("Continuing with default mock model...")
     
     # Load mock database
     pipeline.load_database()

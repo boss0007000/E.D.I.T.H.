@@ -16,10 +16,9 @@ Each folder name should be: <make>_<model>_<year>
 """
 
 import os
-import sys
 import argparse
 from pathlib import Path
-from typing import List, Tuple
+from typing import List
 import json
 
 import torch
