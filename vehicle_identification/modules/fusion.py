@@ -163,19 +163,45 @@ class ResultFusion:
     
     def _extract_ocr_info(self, ocr_results: List[Dict]) -> Dict[str, List[str]]:
         """Extract brand and model information from OCR results"""
-        from ..modules.ocr import VehicleOCR
-        
-        # Create temporary OCR instance to use helper methods
-        ocr = VehicleOCR()
+        import re
         
         brands = []
         models = []
         
-        if ocr_results:
-            brands = ocr.extract_brand_info(ocr_results)
-            models = ocr.extract_model_info(ocr_results)
+        if not ocr_results:
+            return {'brands': brands, 'models': models}
         
-        return {'brands': brands, 'models': models}
+        # Known brands list (duplicated to avoid circular import)
+        known_brands = [
+            'TOYOTA', 'HONDA', 'FORD', 'CHEVROLET', 'CHEVY', 'BMW', 
+            'MERCEDES', 'BENZ', 'AUDI', 'VOLKSWAGEN', 'VW', 'NISSAN',
+            'HYUNDAI', 'TESLA', 'MAZDA', 'SUBARU', 'KIA', 'LEXUS'
+        ]
+        
+        # Model patterns (duplicated to avoid circular import)
+        patterns = [
+            r'\b[A-Z]{2,}\b',  # Uppercase abbreviations (XLE, SE, LX)
+            r'\b\d{3}[a-zA-Z]?\b',  # Numbers like 350, 450h
+            r'\b[A-Z][0-9]+\b',  # Alphanumeric like X5, Q7
+        ]
+        
+        for result in ocr_results:
+            text = result['text'].upper().strip()
+            
+            # Extract brands
+            if text in known_brands:
+                brands.append(text)
+            
+            # Extract models
+            for pattern in patterns:
+                matches = re.findall(pattern, text)
+                models.extend(matches)
+            
+            # Also add high-confidence text as-is
+            if result['confidence'] > 0.7 and len(text) > 1:
+                models.append(text)
+        
+        return {'brands': list(set(brands)), 'models': list(set(models))}
     
     def format_final_results(self, fused_results: List[Dict]) -> Dict:
         """

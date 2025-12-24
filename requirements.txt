@@ -20,6 +20,7 @@ transformers>=4.30.0
 sentence-transformers>=2.2.0
 
 # Vector similarity search
+# Note: Use faiss-gpu instead of faiss-cpu for GPU acceleration in production
 faiss-cpu>=1.7.4
 hnswlib>=0.7.0
 
