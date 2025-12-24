@@ -55,6 +55,14 @@ htmlcov/
 vehicle_identification/data/*.npy
 vehicle_identification/data/*.bin
 vehicle_identification/data/*.index
+models/*.pth
+models/*.json
+models/*.pt
+!models/README.md
+
+# Dataset folder (user's training data)
+dataset/
+!dataset/.gitkeep
 
 # Images (except examples)
 *.jpg
